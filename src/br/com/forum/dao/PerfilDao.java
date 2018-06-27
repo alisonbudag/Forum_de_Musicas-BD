@@ -27,7 +27,7 @@ public class PerfilDao {
 	public void puxarDados(int idUserLogado, PerfilBean obj){
 		
 		//SQL
-		String sql = "SELECT nome, email, idade, cidade, estado, pais FROM perfis WHERE perfis.idLogin=?";
+		String sql = "SELECT nome, email, idade, cidade, estado, pais, isAdm, isMod FROM perfis WHERE perfis.idLogin=?";
 				
 		//Tenta realizar o comando
 		try {
@@ -44,6 +44,8 @@ public class PerfilDao {
 				obj.setCidade(rs.getString("cidade"));
 				obj.setEstado(rs.getString("estado"));
 				obj.setPais(rs.getString("pais"));
+				obj.setAdm(rs.getBoolean("isAdm"));
+				obj.setMod(rs.getBoolean("isMod"));
 			}
 				
 			pstmt.execute();

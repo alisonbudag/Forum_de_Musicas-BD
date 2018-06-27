@@ -60,10 +60,10 @@ public class HomeView extends JFrame {
 			public void mouseReleased(MouseEvent e) {
 				
 				if(tree.getSelectionPath() != null) {
-				String index = tree.getLastSelectedPathComponent().toString();
+				String sessaoSelecionada = tree.getLastSelectedPathComponent().toString();
 				
-				if((!index.equals("Música")) && (!index.equals("Divulgação e Arte")) && (!index.equals("Feedback"))){
-					SessaoView sv = new SessaoView(idUsuarioLogado);
+				if((!sessaoSelecionada.equals("Música")) && (!sessaoSelecionada.equals("Divulgação e Arte")) && (!sessaoSelecionada.equals("Feedback"))){
+					SessaoView sv = new SessaoView(idUsuarioLogado, sessaoSelecionada);
 					dispose();
 				}
 				}

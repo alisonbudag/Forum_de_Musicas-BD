@@ -34,6 +34,7 @@ public class PerfilView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//Menus
 		JLabel lblHome = new JLabel("Home");
 		lblHome.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblHome.setBounds(50, 11, 43, 25);
@@ -194,6 +195,7 @@ public class PerfilView extends JFrame {
 			}
 		});
 		
+		//Labels
 		JLabel lblSessao = new JLabel("PERFIL");
 		lblSessao.setBackground(Color.LIGHT_GRAY);
 		lblSessao.setOpaque(true);
@@ -255,6 +257,15 @@ public class PerfilView extends JFrame {
 		PerfilBean pb = new PerfilBean();
 		pd.puxarDados(idUsuarioLogado, pb);
 		
+		if(pb.isAdm() == true){
+			lblSessao.setText("PERFIL - ADMINISTRADOR");
+		}else if(pb.isMod() == true){
+			lblSessao.setText("PERFIL - MODERADOR");
+		}else{
+			lblSessao.setText("PERFIL - MEMBRO");
+		}
+		
+		//Exibir labels dos dados
 		JLabel seuNome = new JLabel(pb.getNome());
 		seuNome.setBackground(Color.LIGHT_GRAY);
 		seuNome.setOpaque(true);
@@ -303,11 +314,13 @@ public class PerfilView extends JFrame {
 		seuPais.setBounds(104, 332, 239, 35);
 		contentPane.add(seuPais);
 		
+		//Label da foto
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/semFoto.jpg")));
 		lblNewLabel.setBounds(355, 102, 135, 127);
 		contentPane.add(lblNewLabel);
 		
+		//Botão para atualizar a foto de usuário
 		JButton btnAtualizarFoto = new JButton("Atualizar foto");
 		btnAtualizarFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
