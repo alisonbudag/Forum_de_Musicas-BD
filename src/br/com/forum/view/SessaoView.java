@@ -27,7 +27,7 @@ public class SessaoView extends JFrame {
 
 	private JPanel contentPane;
 
-	public SessaoView(String index) {
+	public SessaoView(int idUsuarioLogado) {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 400);
@@ -48,7 +48,7 @@ public class SessaoView extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				
-				HomeView hv = new HomeView();
+				HomeView hv = new HomeView(idUsuarioLogado);
 				
 				dispose();
 				
@@ -88,7 +88,7 @@ public class SessaoView extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				
-				PerfilView pv = new PerfilView();
+				PerfilView pv = new PerfilView(idUsuarioLogado);
 				
 				dispose();
 				
@@ -198,7 +198,7 @@ public class SessaoView extends JFrame {
 			}
 		});
 		
-		JLabel lblSessao = new JLabel(index);
+		JLabel lblSessao = new JLabel();
 		lblSessao.setBackground(Color.LIGHT_GRAY);
 		lblSessao.setOpaque(true);
 		lblSessao.setHorizontalAlignment(SwingConstants.CENTER);

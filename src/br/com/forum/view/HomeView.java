@@ -20,7 +20,7 @@ public class HomeView extends JFrame {
 
 	private JPanel contentPane;
 
-	public HomeView() {
+	public HomeView(int idUsuarioLogado) {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 400);
@@ -63,7 +63,7 @@ public class HomeView extends JFrame {
 				String index = tree.getLastSelectedPathComponent().toString();
 				
 				if((!index.equals("Música")) && (!index.equals("Divulgação e Arte")) && (!index.equals("Feedback"))){
-					SessaoView sv = new SessaoView(index);
+					SessaoView sv = new SessaoView(idUsuarioLogado);
 					dispose();
 				}
 				}
@@ -113,7 +113,7 @@ public class HomeView extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				
-				HomeView hv = new HomeView();
+				HomeView hv = new HomeView(idUsuarioLogado);
 				
 				dispose();
 				
@@ -153,7 +153,7 @@ public class HomeView extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				
-				PerfilView pv = new PerfilView();
+				PerfilView pv = new PerfilView(idUsuarioLogado);
 				
 				dispose();
 				

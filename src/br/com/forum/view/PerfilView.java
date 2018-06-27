@@ -16,11 +16,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import br.com.forum.bean.PerfilBean;
+import br.com.forum.dao.PerfilDao;
+
 public class PerfilView extends JFrame {
 
 	private JPanel contentPane;
 
-	public PerfilView() {
+	public PerfilView(int idUsuarioLogado) {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 400);
@@ -41,7 +44,7 @@ public class PerfilView extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				
-				HomeView hv = new HomeView();
+				HomeView hv = new HomeView(idUsuarioLogado);
 				
 				dispose();
 				
@@ -81,7 +84,7 @@ public class PerfilView extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				
-				PerfilView pv = new PerfilView();
+				PerfilView pv = new PerfilView(idUsuarioLogado);
 				
 				dispose();
 				
@@ -247,15 +250,12 @@ public class PerfilView extends JFrame {
 		lblPais.setBounds(10, 332, 84, 35);
 		contentPane.add(lblPais);
 		
-		//Puxar Dados Perfil
-		String nome = "";
-		int idade = 0;
-		String email = "";
-		String cidade = "";
-		String estado = "";
-		String pais = "";
+		//Puxar Dados Perfil		
+		PerfilDao pd = new PerfilDao();
+		PerfilBean pb = new PerfilBean();
+		pd.puxarDados(idUsuarioLogado, pb);
 		
-		JLabel seuNome = new JLabel(nome);
+		JLabel seuNome = new JLabel(pb.getNome());
 		seuNome.setBackground(Color.LIGHT_GRAY);
 		seuNome.setOpaque(true);
 		seuNome.setHorizontalAlignment(SwingConstants.CENTER);
@@ -263,7 +263,7 @@ public class PerfilView extends JFrame {
 		seuNome.setBounds(104, 102, 239, 35);
 		contentPane.add(seuNome);
 		
-		JLabel suaIdade = new JLabel(String.valueOf(idade));
+		JLabel suaIdade = new JLabel(String.valueOf(pb.getIdade()));
 		suaIdade.setBackground(Color.LIGHT_GRAY);
 		suaIdade.setOpaque(true);
 		suaIdade.setHorizontalAlignment(SwingConstants.CENTER);
@@ -271,7 +271,7 @@ public class PerfilView extends JFrame {
 		suaIdade.setBounds(104, 148, 239, 35);
 		contentPane.add(suaIdade);
 		
-		JLabel seuEmail = new JLabel(email);
+		JLabel seuEmail = new JLabel(pb.getEmail());
 		seuEmail.setBackground(Color.LIGHT_GRAY);
 		seuEmail.setOpaque(true);
 		seuEmail.setHorizontalAlignment(SwingConstants.CENTER);
@@ -279,7 +279,7 @@ public class PerfilView extends JFrame {
 		seuEmail.setBounds(104, 194, 239, 35);
 		contentPane.add(seuEmail);
 		
-		JLabel suaCidade = new JLabel(cidade);
+		JLabel suaCidade = new JLabel(pb.getCidade());
 		suaCidade.setBackground(Color.LIGHT_GRAY);
 		suaCidade.setOpaque(true);
 		suaCidade.setHorizontalAlignment(SwingConstants.CENTER);
@@ -287,7 +287,7 @@ public class PerfilView extends JFrame {
 		suaCidade.setBounds(104, 240, 239, 35);
 		contentPane.add(suaCidade);
 		
-		JLabel seuEstado = new JLabel(estado);
+		JLabel seuEstado = new JLabel(pb.getEstado());
 		seuEstado.setBackground(Color.LIGHT_GRAY);
 		seuEstado.setOpaque(true);
 		seuEstado.setHorizontalAlignment(SwingConstants.CENTER);
@@ -295,7 +295,7 @@ public class PerfilView extends JFrame {
 		seuEstado.setBounds(104, 286, 239, 35);
 		contentPane.add(seuEstado);
 		
-		JLabel seuPais = new JLabel(pais);
+		JLabel seuPais = new JLabel(pb.getPais());
 		seuPais.setBackground(Color.LIGHT_GRAY);
 		seuPais.setOpaque(true);
 		seuPais.setHorizontalAlignment(SwingConstants.CENTER);

@@ -3,6 +3,7 @@ package br.com.forum.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
@@ -96,6 +97,36 @@ public class LoginDao {
 		
 		return isBanned;
 		
+	}
+	
+	//Retornar o idLogin para passar como parâmetro ao acessar o sistema
+	public Integer idLogin(String login) {
+		
+		int idLogin = 0;
+		
+		//SQL
+		String sql = "SELECT idLogin FROM logins where user=?";
+				
+		//Executar
+		try{
+			//Comando para realizar a conexão e executar o comando SQL
+			PreparedStatement ps = conexao.prepareStatement(sql);
+			ps.setString(1, login);
+	        ResultSet rs = ps.executeQuery();
+					
+			//Laço
+			if(rs.next()){
+				idLogin = rs.getInt("idLogin");
+			}
+			
+			//Finalizar conexão
+			ps.close();
+			
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Falha ao executar a seleção.");
+		}
+		
+		return idLogin;
 	}
 	
 }
