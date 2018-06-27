@@ -2,6 +2,8 @@ package br.com.forum.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
@@ -83,6 +85,72 @@ public class CadastroDao {
 		
 	}
 	
+	//Retornar o idLogin para cadastrar o perfil
+	public Integer idLogin() {
+		
+		int idLogin = 0;
+		
+		//SQL
+		String sql = "SELECT * FROM logins order by idLogin desc limit 1";
+				
+		//Executar
+		try{
+			//Comando para realizar a conexão e executar o comando SQL
+			Statement stmt = conexao.createStatement();
+					
+			//Obter todos os dados da tabela
+			ResultSet rs = stmt.executeQuery(sql);
+					
+			//Laço
+			if(rs.next()){
+				idLogin = rs.getInt("idLogin");
+			}
+			
+			//Finalizar conexão
+			stmt.close();
+			
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Falha ao executar a seleção.");
+		}
+		
+		return idLogin;
+	}
+	
+	//Verificar se já existe o nome de usuário
+	public boolean verificarUsuario(String usuario) {
+		
+		boolean valida = true;
+		
+		//SQL
+		String sql = "SELECT * FROM logins";
+						
+		//Executar
+		try{
+			//Comando para realizar a conexão e executar o comando SQL
+			Statement stmt = conexao.createStatement();
+							
+			//Obter todos os dados da tabela
+			ResultSet rs = stmt.executeQuery(sql);
+							
+			//Laço
+			while(rs.next()){
+				if(usuario.equals(rs.getString("user"))) {
+					valida = false;
+					break;
+				}
+			}
+					
+			//Finalizar conexão
+			stmt.close();
+					
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Falha ao executar a seleção.");
+		}
+		
+		return valida;
+		
+	}
+	
 	//Validar Cadastro
 	public boolean validarCadastro(String nome, String usuario, String senha, String repSenha, String email, int idade, String pais, String estado, String cidade) {
 		
@@ -96,39 +164,47 @@ public class CadastroDao {
 			//Verificar se as senhas combinam
 			if(senha.equals(repSenha)) {
 				
-				//Verificar o tamanho do usuário e da senha
-				if((usuario.length() < 3) || (usuario.length() > 12) || (senha.length() < 3) || (senha.length() > 20)) {
-					JOptionPane.showMessageDialog(null, "O usuário precisa ter entre 3 e 12 carácteres.\nA senha precisa ter entre 3 e 20 carácteres.", null, JOptionPane.ERROR_MESSAGE);
+				//Verificar se usuário já existe
+				if(verificarUsuario(usuario) == true) {
+					
+					//Verificar o tamanho do usuário e da senha
+					if((usuario.length() < 3) || (usuario.length() > 12) || (senha.length() < 3) || (senha.length() > 20)) {
+						JOptionPane.showMessageDialog(null, "O usuário precisa ter entre 3 e 12 carácteres.\nA senha precisa ter entre 3 e 20 carácteres.", null, JOptionPane.ERROR_MESSAGE);
+					}else {
+						
+						//Dar set nos dados do Login
+						LoginBean lb = new LoginBean();
+						lb.setUser(usuario);
+						lb.setPassword(senha);
+						
+						//Dar set nos dados do perfil
+						PerfilBean pb = new PerfilBean();
+						pb.setNome(nome);
+						pb.setEmail(email);
+						pb.setIdade(idade);
+						pb.setPais(pais);
+						pb.setEstado(estado);
+						pb.setCidade(cidade);
+						pb.setAdm(false);
+						pb.setMod(false);
+						pb.setBanned(false);
+						pb.setIdLogin(idLogin());
+						
+						//Cadastrar
+						cadastrarLogin(lb);
+						cadastrarPerfil(pb);
+						
+						//Dar boas vindas
+						JOptionPane.showMessageDialog(null, "Bem vindo ao Darkest Side of the Music, " + nome + "!");
+						
+						valida = true;
+											
+					}
+					
 				}else {
-					
-					//Dar set nos dados do Login
-					LoginBean lb = new LoginBean();
-					lb.setUser(usuario);
-					lb.setPassword(senha);
-					
-					//Dar set nos dados do perfil
-					PerfilBean pb = new PerfilBean();
-					pb.setNome(nome);
-					pb.setEmail(email);
-					pb.setIdade(idade);
-					pb.setPais(pais);
-					pb.setEstado(estado);
-					pb.setCidade(cidade);
-					pb.setAdm(false);
-					pb.setMod(false);
-					pb.setBanned(false);
-					pb.setIdLogin(2);
-					
-					//Cadastrar
-					cadastrarLogin(lb);
-					cadastrarPerfil(pb);
-					
-					//Dar boas vindas
-					JOptionPane.showMessageDialog(null, "Bem vindo ao Darkest Side of the Music, " + nome + "!");
-					
-					valida = true;
-										
+					JOptionPane.showMessageDialog(null, "Este nome de usuário já existe.", null, JOptionPane.ERROR_MESSAGE);
 				}
+				
 			}else {
 				JOptionPane.showMessageDialog(null, "Falha na validação da senha.", null, JOptionPane.ERROR_MESSAGE);
 			}
