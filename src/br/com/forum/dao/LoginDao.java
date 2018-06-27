@@ -65,4 +65,37 @@ public class LoginDao {
 		
 	}
 
+	//Verificar se o usuário está banido
+	public boolean isBanned(String login) {
+		
+		boolean isBanned = false;
+		
+		//SQL
+		String sql = "SELECT perfis.nome from perfis, logins WHERE user=? AND perfis.idLogin = logins.idLogin AND isBanned=1";
+		
+		//Executar
+		try{
+			
+		PreparedStatement ps = conexao.prepareStatement(sql);
+        ps.setString(1, login);
+        ResultSet rs = ps.executeQuery();
+            
+        //Laço
+        if (rs.next()) {
+        	// Se r.next() for verdade a conta está banida
+           	isBanned = true;
+           	JOptionPane.showMessageDialog(null, "Esta conta está banida.", null, JOptionPane.ERROR_MESSAGE);	
+        }
+            
+        //Finalizar a conexão
+        ps.close();
+            
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Falha ao cadastrar, erro: "+e.getMessage());
+		}	
+		
+		return isBanned;
+		
+	}
+	
 }

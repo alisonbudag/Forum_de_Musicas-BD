@@ -67,8 +67,10 @@ public class LoginView extends JFrame {
 				LoginDao ld = new LoginDao();
 				
 				if(ld.efetuarLogin(login, senha) == true) {
+					if(ld.isBanned(login) == false) {
 					HomeView hv = new HomeView();
 					dispose();
+					}
 				}
 				
 			}
