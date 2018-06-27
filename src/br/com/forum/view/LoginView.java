@@ -67,7 +67,7 @@ public class LoginView extends JFrame {
 				LoginDao ld = new LoginDao();
 				
 				if(ld.efetuarLogin(login, senha) == true) {
-					//HomeView hv = new HomeView();
+					HomeView hv = new HomeView();
 					dispose();
 				}
 				
