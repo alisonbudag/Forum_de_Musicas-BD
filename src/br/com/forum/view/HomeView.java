@@ -54,7 +54,7 @@ public class HomeView extends JFrame {
 				}
 			}
 		));
-		/*tree.addMouseListener(new MouseListener() {
+		tree.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -63,7 +63,7 @@ public class HomeView extends JFrame {
 				String index = tree.getLastSelectedPathComponent().toString();
 				
 				if((!index.equals("Música")) && (!index.equals("Divulgação e Arte")) && (!index.equals("Feedback"))){
-					Sessao a = new Sessao(index);
+					SessaoView sv = new SessaoView(index);
 					dispose();
 				}
 				}
@@ -93,7 +93,7 @@ public class HomeView extends JFrame {
 				// TODO Auto-generated method stub
 				
 			}
-		});*/
+		});
 		contentPane.add(tree);
 		
 		JScrollPane barra = new JScrollPane(tree);
