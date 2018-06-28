@@ -23,6 +23,7 @@ import br.com.forum.bean.LoginBean;
 import br.com.forum.bean.PerfilBean;
 import br.com.forum.bean.TopicoBean;
 import br.com.forum.dao.LoginDao;
+import br.com.forum.dao.MensagemDao;
 import br.com.forum.dao.PerfilDao;
 import br.com.forum.dao.TopicoDao;
 
@@ -262,8 +263,8 @@ public class TopicoView extends JFrame {
 		contentPane.add(barraMsgTopico);
 		
 		//Chamar JPanel
-		/*JPanelMensagem a = new JPanelMensagem();
-		contentPane.add(a.estrutura(index, topicoSelecionado));*/
+		MensagemDao md = new MensagemDao();
+		contentPane.add(md.estrutura(sessaoSelecionada, topicoSelecionado));
 		
 		//Botão para voltar
 		JButton btnVoltar = new JButton("Voltar");
@@ -289,8 +290,9 @@ public class TopicoView extends JFrame {
 				int confirm = JOptionPane.showConfirmDialog(null, "Você tem certeza?", "Excluir tópico", 0);
 				if(confirm == 0) {
 					TopicoDao td = new TopicoDao();
+					MensagemDao md = new MensagemDao();
+					md.excluirMensagens(sessaoSelecionada, topicoSelecionado);
 					td.excluirTopico(sessaoSelecionada, topicoSelecionado);
-					//a.excluirRespostasTopico(index, topicoSelecionado);
 					SessaoView sv = new SessaoView(idUsuarioLogado, sessaoSelecionada);
 					dispose();
 				}
@@ -298,6 +300,8 @@ public class TopicoView extends JFrame {
 			}
 		});
 		btnExcluirTopico.setBounds(370, 85, 120, 23);
+		
+		//Deixar o botão Excluir visível apenas para ADMs, MODs e o OP
 		if(pb.isAdm() || pb.isMod() || pb.getNome().equals(op)) {
 			btnExcluirTopico.setVisible(true);
 		}else {
