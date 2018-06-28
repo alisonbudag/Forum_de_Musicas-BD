@@ -16,6 +16,8 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import br.com.forum.dao.MensagemDao;
+
 public class ResponderTopicoView extends JFrame {
 
 	private JPanel contentPane;
@@ -212,16 +214,20 @@ public class ResponderTopicoView extends JFrame {
 		contentPane.add(barraResponder);
 		
 		JButton btnEnviar = new JButton("Enviar");
-		/*btnEnviar.addActionListener(new ActionListener() {
+		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String mensagem = txtMensagem.getText();
-				codigo.Topico a = new codigo.Topico();
-				a.validaResponderTopico(mensagem, index, topicoSelecionado);
 				
-				Topico b = new Topico(index, topicoSelecionado);
-				dispose();
+				MensagemDao md = new MensagemDao();
+				
+				if(md.validarCadastroMensagem(idUsuarioLogado, sessaoSelecionada, topicoSelecionado, mensagem)) {
+					TopicoView tv = new TopicoView(idUsuarioLogado, sessaoSelecionada, topicoSelecionado);
+					dispose();
+				}
+				
+				
 			}
-		});*/
+		});
 		btnEnviar.setBounds(401, 366, 89, 23);
 		contentPane.add(btnEnviar);
 		

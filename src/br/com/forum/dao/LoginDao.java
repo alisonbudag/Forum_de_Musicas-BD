@@ -99,7 +99,7 @@ public class LoginDao {
 		
 	}
 	
-	//Retornar o idLogin para passar como parâmetro ao acessar o sistema
+	//Retornar o idLogin do usuário logado para passar como parâmetro ao acessar o sistema
 	public Integer idLogin(String login) {
 		
 		int idLogin = 0;
