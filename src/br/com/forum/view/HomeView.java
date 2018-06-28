@@ -2,12 +2,15 @@ package br.com.forum.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -15,6 +18,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+
+import br.com.forum.bean.PerfilBean;
+import br.com.forum.dao.PerfilDao;
 
 public class HomeView extends JFrame {
 
@@ -271,23 +277,28 @@ public class HomeView extends JFrame {
 		lblNewLabel.setBounds(10, 64, 480, 27);
 		contentPane.add(lblNewLabel);
 		
+		//Puxar dados do usuário logado
+		PerfilBean pb = new PerfilBean();
+		PerfilDao pd = new PerfilDao();
+		pd.puxarDados(idUsuarioLogado, pb);
+		
 		JButton btnPainelDeControle = new JButton("Painel de Controle [ADM/MOD]");
 		btnPainelDeControle.setBounds(128, 366, 230, 23);
 		contentPane.add(btnPainelDeControle);
-		/*btnPainelDeControle.addActionListener(new ActionListener() {
+		btnPainelDeControle.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(VariaveisEstaticas.isAdm == true || VariaveisEstaticas.isMod == true) {
-					PainelControle a = new PainelControle();
+				if(pb.isAdm() || pb.isMod()) {
+					PainelControleView pcv = new PainelControleView(idUsuarioLogado);
 					dispose();
 				}else {
 					JOptionPane.showMessageDialog(null, "Você não tem permissão para fazer isto.");
 				}
 				
 			}
-		});*/
+		});
 		
 		setVisible(true);
 	}
