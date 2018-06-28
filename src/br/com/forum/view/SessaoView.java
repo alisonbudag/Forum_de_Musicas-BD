@@ -9,6 +9,9 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;
+
+import br.com.forum.dao.TopicoDao;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -206,14 +209,14 @@ public class SessaoView extends JFrame {
 		lblSessao.setBounds(10, 64, 480, 27);
 		contentPane.add(lblSessao);
 		
-		//codigo.Topico to = new codigo.Topico();
-		JList list = new JList();
+		TopicoDao td = new TopicoDao();
+		JList list = new JList(td.listarTopico(sessaoSelecionada));
 		
 		JScrollPane barra = new JScrollPane(list);
 		barra.setBounds(10, 146, 480, 243);
 		contentPane.add(barra);
 		
-		/*list.addMouseListener(new MouseListener() {
+		list.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -222,7 +225,7 @@ public class SessaoView extends JFrame {
 					String topicoSelecionado = list.getSelectedValue().toString();
 				
 					if(topicoSelecionado != null){
-						Topico a = new Topico(index, topicoSelecionado);
+						TopicoView tv = new TopicoView(idUsuarioLogado, sessaoSelecionada, topicoSelecionado);
 						dispose();
 					}
 				}
@@ -252,7 +255,7 @@ public class SessaoView extends JFrame {
 				// TODO Auto-generated method stub
 				
 			}
-		});*/
+		});
 		
 		JButton btnNovoTpico = new JButton("Novo Tópico");
 		btnNovoTpico.addActionListener(new ActionListener() {
