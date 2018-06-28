@@ -177,6 +177,9 @@ public class CadastroDao {
 						lb.setUser(usuario);
 						lb.setPassword(senha);
 						
+						//Cadastrar Login
+						cadastrarLogin(lb);
+						
 						//Dar set nos dados do perfil
 						PerfilBean pb = new PerfilBean();
 						pb.setNome(nome);
@@ -190,8 +193,7 @@ public class CadastroDao {
 						pb.setBanned(false);
 						pb.setIdLogin(idLogin());
 						
-						//Cadastrar
-						cadastrarLogin(lb);
+						//Cadastrar Perfil
 						cadastrarPerfil(pb);
 						
 						//Dar boas vindas

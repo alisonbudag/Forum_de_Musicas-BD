@@ -57,7 +57,7 @@ public class LoginDao {
 	            ps.close();
 	            
 			}catch(Exception e){
-				JOptionPane.showMessageDialog(null, "Falha ao cadastrar, erro: "+e.getMessage());
+				JOptionPane.showMessageDialog(null, "Falha ao logar, erro: "+e.getMessage());
 			}	
 			
 		}
@@ -92,7 +92,7 @@ public class LoginDao {
         ps.close();
             
 		}catch(Exception e){
-			JOptionPane.showMessageDialog(null, "Falha ao cadastrar, erro: "+e.getMessage());
+			JOptionPane.showMessageDialog(null, "Falha, erro: "+e.getMessage());
 		}	
 		
 		return isBanned;

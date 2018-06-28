@@ -1,33 +1,31 @@
 package br.com.forum.view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.DefaultMutableTreeNode;
+
+import br.com.forum.dao.NovoTopicoDao;
+
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.SwingConstants;
-import javax.swing.JList;
 import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class SessaoView extends JFrame {
+public class NovoTopicoView extends JFrame {
 
 	private JPanel contentPane;
+	private JTextField txtTitulo;
 
-	public SessaoView(int idUsuarioLogado, String sessaoSelecionada) {
+	public NovoTopicoView(int idUsuarioLogado, String sessaoSelecionada) {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 400);
@@ -128,7 +126,7 @@ public class SessaoView extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				
-				LoginView a = new LoginView();
+				LoginView lv = new LoginView();
 				
 				dispose();
 				
@@ -198,7 +196,7 @@ public class SessaoView extends JFrame {
 			}
 		});
 		
-		JLabel lblSessao = new JLabel(sessaoSelecionada);
+		JLabel lblSessao = new JLabel("Novo Tópico - "+sessaoSelecionada);
 		lblSessao.setBackground(Color.LIGHT_GRAY);
 		lblSessao.setOpaque(true);
 		lblSessao.setHorizontalAlignment(SwingConstants.CENTER);
@@ -206,68 +204,57 @@ public class SessaoView extends JFrame {
 		lblSessao.setBounds(10, 64, 480, 27);
 		contentPane.add(lblSessao);
 		
-		//codigo.Topico to = new codigo.Topico();
-		JList list = new JList();
+		JLabel lblTitulo = new JLabel("T\u00EDtulo");
+		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTitulo.setBounds(10, 102, 480, 15);
+		contentPane.add(lblTitulo);
 		
-		JScrollPane barra = new JScrollPane(list);
-		barra.setBounds(10, 146, 480, 243);
-		contentPane.add(barra);
+		txtTitulo = new JTextField();
+		txtTitulo.setBounds(10, 128, 331, 20);
+		contentPane.add(txtTitulo);
+		txtTitulo.setColumns(10);
 		
-		/*list.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
+		JLabel lblMensagem = new JLabel("Mensagem");
+		lblMensagem.setHorizontalAlignment(SwingConstants.LEFT);
+		lblMensagem.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblMensagem.setBounds(10, 159, 480, 25);
+		contentPane.add(lblMensagem);
+		
+		JTextArea txtMensagem = new JTextArea();
+		txtMensagem.setLineWrap(true);
+		JScrollPane barraResponder = new JScrollPane(txtMensagem);
+		barraResponder.setBounds(10, 186, 480, 173);
+		contentPane.add(barraResponder);
+		
+		JButton btnEnviar = new JButton("Enviar");
+		btnEnviar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String titulo = txtTitulo.getText();
+				String mensagem = txtMensagem.getText();
 				
-				if(list.getSelectedIndex() != -1) {
-					String topicoSelecionado = list.getSelectedValue().toString();
+				NovoTopicoDao ntd = new NovoTopicoDao();
 				
-					if(topicoSelecionado != null){
-						Topico a = new Topico(index, topicoSelecionado);
-						dispose();
-					}
+				if(ntd.criarTopico(titulo, mensagem, idUsuarioLogado, sessaoSelecionada) == true) {				
+					SessaoView sv = new SessaoView(idUsuarioLogado, sessaoSelecionada);
+					dispose();
 				}
 				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});*/
+		});
+		btnEnviar.setBounds(401, 366, 89, 23);
+		contentPane.add(btnEnviar);
 		
-		JButton btnNovoTpico = new JButton("Novo Tópico");
-		btnNovoTpico.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				NovoTopicoView ntv = new NovoTopicoView(idUsuarioLogado, sessaoSelecionada);
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SessaoView sv = new SessaoView(idUsuarioLogado, sessaoSelecionada);
 				dispose();
 			}
 		});
-		btnNovoTpico.setBounds(380, 112, 110, 23);
-		contentPane.add(btnNovoTpico);
-		
-		JLabel lblTpicos = new JLabel("Tópicos");
-		lblTpicos.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTpicos.setBounds(10, 121, 63, 17);
-		contentPane.add(lblTpicos);
+		btnVoltar.setBounds(10, 366, 89, 23);
+		contentPane.add(btnVoltar);
 		
 		setVisible(true);
 	}
